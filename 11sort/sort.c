@@ -4,30 +4,35 @@
 #include "sort.h"
 
 static void DoMergeSort(int a[], int start, int end);
-static void Merge(int a[], int start, int end);
+static void Merge(int a[], int start, int mid, int end);
 
-static void Merge(int a[], int start, int end)
+
+static void Merge(int a[], int start, int mid, int end)
 {
-    int size = end-start+1;
-    int result[size];
-    int mid = start + (end -start) / 2;
-    int i = 0, j = start, k = mid;
-
-    for(; i < size; i++)
+    int result[end-start+1];
+    int j = start, k = mid+1, i = 0;
+    int p,q;
+    while((j <= mid) && (k <= end))
     {
-        if(j >= mid-1)
-        {
-            result[i] = a[k];
-        }
-        if(k >= end)
-        {
-            result[i] = a[j];
-        }
-        result[i] = (a[j] < a[k])? a[j++] : a[k++];
+        if(a[j]<=a[k])
+            result[i++] = a[j++];
+        else
+            result[i++] = a[k++];
     }
-    for(i = 0; i < size; i++)
+    p = j;
+    q = mid;
+    if(k <= end)
     {
-        a[i] = result[i];
+        p = k;
+        q = end;
+    }
+    while(p<=q)
+    {
+        result[i++] = a[p++];
+    }
+    for(i = 0;i <= end -start; i++)
+    {
+        a[start+i] = result[i];
     }
 }
 static void DoMergeSort(int a[], int start, int end)
@@ -37,7 +42,7 @@ static void DoMergeSort(int a[], int start, int end)
     if(start >= end) return;
     DoMergeSort(a, start, mid);
     DoMergeSort(a, mid+1, end);
-    Merge(a, start, end);
+    Merge(a, start, mid, end);
 }
 
 void MergeSort(int a[], int size)
