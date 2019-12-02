@@ -1,18 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "sort.h"
 
-#define ARRAY_SIZE (100)
-#define TRUE  (1)
-#define FALSE (0)
-typedef int BOOL;
+static void DoMergeSort(int a[], int start, int end);
+static void Merge(int a[], int start, int end);
 
+static void Merge(int a[], int start, int end)
+{
+    int size = end-start+1;
+    int result[size];
+    int mid = start + (end -start) / 2;
+    int i = 0, j = start, k = mid;
 
-void CreateRandomArray(int a[], int size);
-void PrintArray(int a[], int size, char* title);
-void InsertSort(int a[], int size);
-void BubbleSort(int a[], int size);
-void SelectSort(int a[], int size);
+    for(; i < size; i++)
+    {
+        if(j >= mid-1)
+        {
+            result[i] = a[k];
+        }
+        if(k >= end)
+        {
+            result[i] = a[j];
+        }
+        result[i] = (a[j] < a[k])? a[j++] : a[k++];
+    }
+    for(i = 0; i < size; i++)
+    {
+        a[i] = result[i];
+    }
+}
+static void DoMergeSort(int a[], int start, int end)
+{
+    int mid = start + (end - start) / 2;
+
+    if(start >= end) return;
+    DoMergeSort(a, start, mid);
+    DoMergeSort(a, mid+1, end);
+    Merge(a, start, end);
+}
+
+void MergeSort(int a[], int size)
+{
+    DoMergeSort(a, 0, size-1);
+}
 
 void InsertSort(int a[], int size)
 {
@@ -90,22 +121,4 @@ void CreateRandomArray(int a[], int size)
     {
         a[loop] = rand() % 100;
     }
-}
-
-void main()
-{
-    int a[ARRAY_SIZE];
-
-    CreateRandomArray(a, ARRAY_SIZE);
-    SelectSort(a, ARRAY_SIZE);    
-    PrintArray(a, ARRAY_SIZE, "SelectSort");
-
-    CreateRandomArray(a, ARRAY_SIZE);
-    BubbleSort(a, ARRAY_SIZE);
-    PrintArray(a, ARRAY_SIZE, "BubbleSort");
-
-    CreateRandomArray(a, ARRAY_SIZE);
-    InsertSort(a, ARRAY_SIZE);
-    PrintArray(a, ARRAY_SIZE, "InsertSort");
-    
 }
