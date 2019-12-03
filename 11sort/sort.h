@@ -11,5 +11,6 @@ void InsertSort(int a[], int size);
 void BubbleSort(int a[], int size);
 void SelectSort(int a[], int size);
 void MergeSort(int a[], int size);
+void QuickSort(int a[], int size);
 
 #endif

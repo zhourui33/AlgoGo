@@ -3,9 +3,61 @@
 #include <time.h>
 #include "sort.h"
 
+#define SWAP(left, right) do{\
+                                int temp = left;\
+                                left = right;\
+                                right = temp;\
+                            }while(0)\
+
 static void DoMergeSort(int a[], int start, int end);
 static void Merge(int a[], int start, int mid, int end);
+static int Partition(int a[], int p, int q);
+static void QuickSortInter(int a[], int p, int q);
 
+void QuickSort(int a[], int size)
+{
+    QuickSortInter(a, 0, size-1);
+}
+
+static void QuickSortInter(int a[], int p, int q)
+{
+    if(p >= q) return;
+    int r = Partition(a, p, q);
+    QuickSortInter(a, p, r-1);
+    QuickSortInter(a, r+1, q);
+}
+
+static int Partition(int a[], int p, int q)
+{
+    int pivot = a[q];
+    int j = p, i = p;
+    while(j<q)
+    {
+        if(a[j]<pivot)
+        {
+            SWAP(a[j], a[i]);
+            i++;
+        }
+        j++;
+    }
+    SWAP(a[i], a[q]);
+    return i;
+}
+
+void MergeSort(int a[], int size)
+{
+    DoMergeSort(a, 0, size-1);
+}
+
+static void DoMergeSort(int a[], int start, int end)
+{
+    int mid = start + (end - start) / 2;
+
+    if(start >= end) return;
+    DoMergeSort(a, start, mid);
+    DoMergeSort(a, mid+1, end);
+    Merge(a, start, mid, end);
+}
 
 static void Merge(int a[], int start, int mid, int end)
 {
@@ -34,20 +86,6 @@ static void Merge(int a[], int start, int mid, int end)
     {
         a[start+i] = result[i];
     }
-}
-static void DoMergeSort(int a[], int start, int end)
-{
-    int mid = start + (end - start) / 2;
-
-    if(start >= end) return;
-    DoMergeSort(a, start, mid);
-    DoMergeSort(a, mid+1, end);
-    Merge(a, start, mid, end);
-}
-
-void MergeSort(int a[], int size)
-{
-    DoMergeSort(a, 0, size-1);
 }
 
 void InsertSort(int a[], int size)
@@ -79,9 +117,7 @@ void BubbleSort(int a[], int size)
         {
             if(a[j] > a[j+1])
             {
-                temp = a[j];
-                a[j] = a[j+1];
-                a[j+1] = temp;
+                SWAP(a[j], a[j+1]);
                 swap = TRUE;
             }
         }
@@ -99,9 +135,7 @@ void SelectSort(int a[], int size)
         {
             if(a[i] > a[j])
             {
-                temp = a[i];
-                a[i] = a[j];
-                a[j] = temp;
+                SWAP(a[i], a[j]);
             }
         }
     }
