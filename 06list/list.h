@@ -1,16 +1,19 @@
-class Node
+#ifndef _LIST_H_
+#define _LIST_H_
+
+struct Node
 {
-    public:
     int data;
-    Node *next;
+    struct Node *next;
 };
 
-class List
+typedef struct LinkList
 {
-    private:
-    Node *head;
-    public:
-    List();
-    ~List();
-    void Add(int data);
-};
+    struct Node *head;
+}LinkList;
+
+void InitLinkList(LinkList *l);
+void InsertNode(LinkList *l, int num);
+void PrintLinkList(LinkList *l);
+
+#endif
