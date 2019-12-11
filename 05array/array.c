@@ -1,22 +1,47 @@
 #include<stdlib.h>
+#include<string.h>
+#include<stdio.h>
 #include"array.h"
 
-void CreateArray(Array *array, int len)
+void InitArray(Array *a)
 {
-    array->data = (int *)malloc(len);
-    array->len = len;
-    memset(array->data, 0, array->len);
+    a->data = NULL;
+    a->size = 0;
+    a->used = 0;
 }
 
-void Insert(Array *array, int value)
+void CreateArray(Array *a, int size)
 {
-    int idx;
-    int *dest;
-    if(index > array->len)
-    {
-        return;
-    }
-    dest = array->data + index * sizeof(int);
-    *dest = value;
+    a->data = (int *)malloc(size * sizeof(int));
+    a->size = size;
+    a->used = 0;
+    memset(a->data, 0, a->size);
 }
-void Delete(Array *array, int index);
+
+void Insert(Array *a, int value)
+{
+    if(a->used >= a->size)
+        return;
+    a->data[a->used] = value;
+    a->used++;
+}
+
+void Delete(Array *a, int index)
+{
+    if(index >= a->used)
+        return;
+    for(int i = index+1; i < a->used; i++)
+    {
+        a->data[i-1] = a->data[i];
+    }
+    a->used--;
+}
+
+void Dump(Array *a)
+{
+    for(int i = 0; i < a->used; i++)
+    {
+        printf("%d:", a->data[i]);
+    }
+    printf("\n");
+}

@@ -4,12 +4,14 @@
 typedef struct Array
 {
     int *data;
-    int len;
-    int usedSize;
+    int size;
+    int used;
 }Array;
 
-void CreateArray(Array *array, int len);
-void InsertAfter(Array *array, int index);
-void DeleteAfter(Array *array, int index);
+void InitArray(Array *a);
+void CreateArray(Array *a, int size);
+void Insert(Array *a, int value);
+void Delete(Array *a, int index);
+void Dump(Array *a);
 
 #endif
