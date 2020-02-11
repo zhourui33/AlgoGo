@@ -1,55 +1,28 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include"list.h"
+#include "list.h"
 
-
-void InitLinkList(LinkList *l)
+void LIST_CREATE(LIST_HANDLE handle)
 {
-    struct Node *head;
-    head = (struct Node *)malloc(sizeof(struct Node));
-    head->data = 0;
-    head->next = NULL;
-    l->head = head;
+    handle->next = handle;
+    handle->prev = handle->next;
 }
 
-void InsertNode(LinkList *l, int num)
+void LIST_INSERT_HEAD(LIST_HANDLE handle, LIST_ELEM *elem)
 {
-    struct Node *curNode = l->head;
-    struct Node *insNode;
-
-    insNode = (struct Node *)malloc(sizeof(struct Node));
-    insNode->data = num;
-    insNode->next = NULL;
-
-    while(curNode->next != NULL)
-    {
-        curNode = curNode->next;
-    }
-    curNode->next = insNode;
+    elem->next = handle;
+    elem->prev = handle->prev;
+    handle->prev->next = elem;
+    handle->prev = elem;
 }
 
-void PrintLinkList(LinkList *l)
+void LIST_INSERT_TAIL(LIST_HANDLE handle, LIST_ELEM *elem)
 {
-    struct Node *curNode = l->head;
-    while(curNode->next != NULL)
-    {
-        printf("%d->", curNode->data);
-        curNode = curNode->next;
-    }
-    printf("NULL\n");
-
+    elem->next = handle->next;
+    elem->prev = handle;
+    handle->next->prev = elem;
+    handle->next = elem;
 }
-int main()
+
+LIST_ELEM* LIST_GET_TAIL(LIST_HANDLE handle)
 {
-    LinkList *l;
-    printf("1");
-    InitLinkList(l);
-    printf("2");
-    InsertNode(l, 1);
-    InsertNode(l, 2);
-    InsertNode(l, 3);
-    InsertNode(l, 4);
-    InsertNode(l, 5);
-    printf("3");
-    PrintLinkList(l);
+    
 }

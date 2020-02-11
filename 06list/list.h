@@ -1,19 +1,25 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 
-struct Node
-{
-    int data;
-    struct Node *next;
-};
+#ifdef __cplusplus_
+extern "C"{
+#endif
 
-typedef struct LinkList
+typedef struct LIST_ELEM
 {
-    struct Node *head;
-}LinkList;
+    struct LIST_ELEM *next;
+    struct LIST_ELEM *prev;
+}LIST_ELEM, *LIST_HANDLE;
 
-void InitLinkList(LinkList *l);
-void InsertNode(LinkList *l, int num);
-void PrintLinkList(LinkList *l);
+#define LIST_REMOVE(handle) LIST_CREATE(handle)
+
+void LIST_CREATE(LIST_HANDLE handle);
+void LIST_INSERT_HEAD(LIST_HANDLE handle, LIST_ELEM *elem);
+void LIST_INSERT_TAIL(LIST_HANDLE handle, LIST_ELEM *elem);
+LIST_ELEM* LIST_GET_TAIL(LIST_HANDLE handle);
+
+#ifdef _cplusplus_
+}
+#endif
 
 #endif
