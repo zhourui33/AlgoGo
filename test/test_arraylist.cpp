@@ -34,7 +34,15 @@ TEST(test_array_list, should_size_decrease_when_remove_elem)
     daysPerMon.insert(2, 31);
     daysPerMon.insert(3, 30);
     ASSERT_EQ(daysPerMon.size(), 4);
-    
+
     daysPerMon.remove(0);
     ASSERT_EQ(daysPerMon.size(), 3);
+}
+
+TEST(test_array_list, should_get_value_by_quote_way)
+{
+    ArrayList<int> daysPerMon(12);
+    
+    daysPerMon.insert(0, 31);
+    ASSERT_EQ(daysPerMon[0], 31);
 }
