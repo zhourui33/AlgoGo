@@ -9,7 +9,8 @@
 			"*.tcc": "cpp",
 			"list": "cpp",
 			"forward_list": "cpp",
-			"vector": "cpp"
+			"vector": "cpp",
+			"array": "cpp"
 		}
 	}
 }
