@@ -2,7 +2,7 @@
 
 TODO: 
 1.linklist 实现编译通过 ok
-2.实现回文判断 palindrome
+2.实现回文判断 palindrome ok
 3.实现LRU缓存淘汰队列
 4.链表逆置 ok
 5.链表中环的检测 ok
@@ -15,6 +15,7 @@ TODO:
 #ifndef _LINK_LIST_H
 #define _LINK_LIST_H
 
+#include <iostream>
 template<typename T>
 struct LinkNode;
 template<typename T>
@@ -45,6 +46,7 @@ struct LinkList
 
     private:
     void destroy();
+    LinkNode<T>* reverseNode(LinkNode<T>*);
     private:
     LinkNode<T> *_head;
 };
@@ -63,7 +65,7 @@ inline LinkList<T>::~LinkList()
 }
 
 template<typename T>
-void LinkList<T>::destroy()
+inline void LinkList<T>::destroy()
 {
     while(_head)
     {
@@ -94,28 +96,29 @@ void LinkList<T>::show() const
     std::cout<<std::endl;
 }
 
+template<typename T>
+LinkNode<T>* LinkList<T>::reverseNode(LinkNode<T>* node)
+{
+    LinkNode<T> *cur = node, 
+                *prev = nullptr, 
+                *next = nullptr;
+    while(cur)
+    {
+        next = cur->next;   // 1. save next node
+        cur->next= prev;    // 2. reverse cur node
+        prev = cur;         // 3. move prev and cur ahead
+        cur = next; 
+    }
+    return prev;
+}
+
 /*
     [head|next]->[A|next]->[B|next]->[C|null]
 */
 template<typename T>
 LinkList<T>& LinkList<T>::reverse()
 {
-    LinkNode<T> *cur = _head->next, 
-                *prev = nullptr, 
-                *next = nullptr;
-
-    while(cur)
-    {
-        // 1. save next node
-        next = cur->next;
-        // 2. reverse cur node
-        cur->next= prev;
-        // 3. move prev and cur ahead
-        prev = cur;
-        cur = next;
-    }
-    // 4. link head node to first node after reverse
-    _head->next = prev;
+    _head->next = reverseNode(_head->next);
     return *this;
 }
 
@@ -183,8 +186,21 @@ bool LinkList<T>::isPalindrome()
         return false;
     }
 
-
-    return false;
+    LinkNode<T> *leftHalf = _head->next,
+                *rightHalf = getMidNode(),                  // 1. find midnode in list
+                *rightHalfReverse = reverseNode(rightHalf); // 2. reverse list after midnode
+    LinkNode<T> *temp = rightHalfReverse;
+    while(temp)
+    {
+        if(leftHalf->data != temp->data)                    //3. compare lefthalf and reversed righthalf list
+        {
+            break;
+        }
+        temp = temp->next;
+        leftHalf = leftHalf->next;
+    }
+    rightHalf = reverseNode(rightHalfReverse);              //4. recover right half linklist to origin
+    return (temp == nullptr);
 }
 
 template<typename T>
@@ -202,8 +218,7 @@ LinkNode<T>* LinkList<T>::getMidNode()
         fast = fast->next->next;
         slow = slow->next;
     }
-    return slow;
-    
+    return slow;  // midnode position ==> (num/2)+1
 }
 
 #endif

@@ -75,19 +75,30 @@ TEST(test_link_list, should_get_mid_node_when_list_has_even_nodes)
     evennodes.insert("six");
 
     LinkNode<string> *midnode = evennodes.getMidNode();
-    cout<<midnode->data<<endl;
     ASSERT_TRUE(midnode->data == "three");
 }
 
-TEST(test_link_list, should_detect_link_list_is_palindrome)
+TEST(test_link_list, should_detect_link_list_even_nodes_is_palindrome)
 {
     LinkList<string> palindrome;
     palindrome.insert("did");
     palindrome.insert("anna");
     palindrome.insert("say");
-    palindrome.insert("as");
+    palindrome.insert("say");
     palindrome.insert("anna");
     palindrome.insert("did");
+    
+    ASSERT_TRUE(palindrome.isPalindrome());
+}
+
+TEST(test_link_list, should_detect_link_list_odd_nodes_is_palindrome)
+{
+    LinkList<string> palindrome;
+    palindrome.insert("so");
+    palindrome.insert("do");
+    palindrome.insert("I");
+    palindrome.insert("do");
+    palindrome.insert("so");
     
     ASSERT_TRUE(palindrome.isPalindrome());
 }
@@ -101,4 +112,5 @@ TEST(test_link_list, should_detect_link_list_is_not_palindrome)
     palindrome.insert("palindrome");
     
     ASSERT_FALSE(palindrome.isPalindrome());
+    palindrome.show();
 }

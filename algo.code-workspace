@@ -10,7 +10,9 @@
 			"list": "cpp",
 			"forward_list": "cpp",
 			"vector": "cpp",
-			"array": "cpp"
+			"array": "cpp",
+			"string": "cpp",
+			"string_view": "cpp"
 		}
 	}
 }
