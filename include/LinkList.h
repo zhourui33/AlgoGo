@@ -3,11 +3,11 @@
 TODO: 
 1.linklist 实现编译通过 ok
 2.实现回文判断 palindrome ok
-3.实现LRU缓存淘汰队列
+3.实现LRU缓存淘汰队列 ok
 4.链表逆置 ok
 5.链表中环的检测 ok
-6.两个有序链表合并
-7.删除链表倒数第N个节点
+6.两个有序链表合并 ok
+7.删除链表倒数第N个节点 ok
 8.求链表中间节点 ok
 
 **/
@@ -22,6 +22,10 @@ template<typename T>
 struct LinkList;
 
 template<typename T>
+LinkNode<T>* copyNode(LinkNode<T>*);
+template<typename T>
+LinkNode<T>* MergeLinkList(LinkNode<T>*, LinkNode<T>*);
+template<typename T>
 struct LinkNode
 {
     T data;
@@ -32,14 +36,18 @@ template<typename T>
 struct LinkList
 {
     LinkList();
+    LinkList(LinkNode<T>*);
     virtual ~LinkList();
 
     bool empty() const;
     void insert(const T&);
+    void remove(LinkNode<T>*);
+    void removeLastN(unsigned int);
     LinkList<T>& reverse();
     LinkNode<T>* getMidNode();
     bool isExistLoop();
     bool isPalindrome();
+    LinkNode<T>* find(T data);
     bool operator==(const LinkList<T>&) const;
 
     void show() const;
@@ -47,7 +55,7 @@ struct LinkList
     private:
     void destroy();
     LinkNode<T>* reverseNode(LinkNode<T>*);
-    private:
+    public:
     LinkNode<T> *_head;
 };
 
@@ -56,6 +64,13 @@ inline LinkList<T>::LinkList()
 {
     _head = new LinkNode<T>;
     _head->next = nullptr;
+}
+
+template<typename T>
+inline LinkList<T>::LinkList(LinkNode<T> *rhs)
+{
+    _head = new LinkNode<T>;
+    _head->next = rhs;
 }
 
 template<typename T>
@@ -219,6 +234,101 @@ LinkNode<T>* LinkList<T>::getMidNode()
         slow = slow->next;
     }
     return slow;  // midnode position ==> (num/2)+1
+}
+
+template<typename T>
+LinkNode<T>* LinkList<T>::find(T data)
+{
+    LinkNode<T> *node = _head->next;
+    while(node)
+    {
+        if(node->data == data)
+        {
+            return node;
+        }
+        node = node->next;
+    }
+    return nullptr;
+}
+
+template<typename T>
+void LinkList<T>::remove(LinkNode<T>* node)
+{
+    LinkNode<T> *loop = _head->next, 
+                *prev = _head;
+    while(loop)
+    {
+        if(loop == node)
+        {
+            prev->next = loop->next;
+            delete node;
+            node = nullptr;
+            break;
+        }
+        prev = loop;
+        loop = loop->next;
+    }
+}
+
+template<typename T>
+void LinkList<T>::removeLastN(unsigned int n)
+{
+    LinkNode<T> *fast = _head->next,
+                *slow = _head->next;
+    while(fast && (n > 0))
+    {
+        fast = fast->next;
+        n--;
+    }
+    if(n > 0) exit(1);
+    while(fast)
+    {
+        fast = fast->next;
+        slow = slow->next;
+    }
+    remove(slow);
+}
+
+template<typename T>
+LinkNode<T>* copyNode(LinkNode<T>* rhs)
+{
+    LinkNode<T> *temp = new LinkNode<T>;
+    temp->data = rhs->data;
+    temp->next = rhs->next;
+    return temp;
+}
+
+template<typename T>
+LinkNode<T>* MergeLinkList(LinkNode<T> *lhs, LinkNode<T> *rhs)
+{
+    LinkNode<T> *result = new LinkNode<T>;
+    LinkNode<T> *p = result;
+    while(lhs && rhs)
+    {
+        if(lhs->data <= rhs->data)
+        {
+            p->next = copyNode(lhs);
+            lhs = lhs->next;
+        }
+        else
+        {
+            p->next = copyNode(rhs);
+            rhs = rhs->next;
+        }
+        p = p->next;   
+    }
+    while(lhs)
+    {
+        p->next = copyNode(lhs);
+        lhs = lhs->next;
+    }
+    while(rhs)
+    {
+        p->next = copyNode(rhs);
+        rhs = rhs->next;
+    }
+
+    return result->next;
 }
 
 #endif

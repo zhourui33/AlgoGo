@@ -112,5 +112,83 @@ TEST(test_link_list, should_detect_link_list_is_not_palindrome)
     palindrome.insert("palindrome");
     
     ASSERT_FALSE(palindrome.isPalindrome());
-    palindrome.show();
+}
+
+TEST(test_link_list, should_remove_last_n_as_expect)
+{
+    LinkList<string> month, expect;
+    month.insert("2000");
+    month.insert("2001");
+    month.insert("2002");
+    month.insert("2003");
+    month.insert("2004");
+    month.insert("2005");
+    month.insert("2006");
+    month.removeLastN(2);
+
+    expect.insert("2000");
+    expect.insert("2002");
+    expect.insert("2003");
+    expect.insert("2004");
+    expect.insert("2005");
+    expect.insert("2006");
+    
+    // before:2006 -> 2005 -> 2004 -> 2003 -> 2002 -> 2001 -> 2000
+    // after: 2006 -> 2005 -> 2004 -> 2003 -> 2002 -> 2000
+    ASSERT_TRUE(month == expect);
+}
+
+TEST(test_link_list, should_do_nothing_when_remove_last_0)
+{
+    LinkList<string> month, expect;
+    month.insert("2000");
+    month.insert("2001");
+    month.insert("2002");
+    month.insert("2003");
+    month.insert("2004");
+    month.insert("2005");
+    month.insert("2006");
+    month.removeLastN(0);
+
+    expect.insert("2000");
+    expect.insert("2001");
+    expect.insert("2002");
+    expect.insert("2003");
+    expect.insert("2004");
+    expect.insert("2005");
+    expect.insert("2006");
+    
+    ASSERT_TRUE(month == expect);
+}
+
+TEST(test_link_list, should_merge_two_linklist_by_increase_order)
+{
+    LinkList<int> first, second;
+    first.insert(9);
+    first.insert(7);
+    first.insert(5);
+    first.insert(3);
+    first.insert(1);
+    second.insert(10);
+    second.insert(8);
+    second.insert(6);
+    second.insert(4);
+    second.insert(2);
+
+    LinkList<int> expect; // expect 1->2->3->4->5->6->7->8->9->10
+    expect.insert(10);
+    expect.insert(9);
+    expect.insert(8);
+    expect.insert(7);
+    expect.insert(6);
+    expect.insert(5);
+    expect.insert(4);
+    expect.insert(3);
+    expect.insert(2);
+    expect.insert(1);
+
+    LinkNode<int> *merge = MergeLinkList(first._head->next, second._head->next);
+    LinkList<int> result(merge);
+
+    ASSERT_TRUE(result == expect);
 }
