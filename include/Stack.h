@@ -107,7 +107,7 @@ bool LinkStack<T>::pop()
     {
         return false;
     }
-    _elems.removeLastN(1);
+    _elems.removeLastN(_size);
     _size--;
     return true;
 }

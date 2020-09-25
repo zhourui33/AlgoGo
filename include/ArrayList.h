@@ -21,7 +21,7 @@ struct ArrayList
     void destroy();
     void insert(uint, const T&);
     const T& remove(uint);
-    T& operator[](uint) const;
+    const T& operator[](uint) const;
 
     private:
     void extendCapacity();
@@ -152,7 +152,7 @@ const T& ArrayList<T>::remove(uint pos)
 }
 
 template<typename T>
-T& ArrayList<T>::operator[](uint pos) const
+const T& ArrayList<T>::operator[](uint pos) const
 {
     CHECK_POS_OVER_SIZE(pos);
     return _data[pos];
