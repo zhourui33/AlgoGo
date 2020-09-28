@@ -154,4 +154,26 @@ int partition(int a[], int start, int end)
     return i;
 }
 
+void counting_sort(int a[], int num)
+{
+    static const int max_size = 11;
+    int count[max_size] = {0};
+    for(int i = 0; i < num; ++i)
+    {
+        count[a[i]]++;
+    }
+    for(int i = 0, j = 0; i < max_size; ++i)
+    {
+        while(count[i]--)
+        {
+            a[j++] = i;
+        }
+    }
+}
+
+void bucket_sort(int a[], int num)
+{
+    counting_sort(a, num);
+}
+
 #endif

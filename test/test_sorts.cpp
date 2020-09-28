@@ -64,3 +64,15 @@ TEST_F(test_sorts, should_array_ascend_when_using_quick_sort)
     SORT_ARRAY_USING(quick_sort);
     CHECK_SORT_RESULT_ASCEND();
 }
+
+TEST_F(test_sorts, should_array_ascend_when_using_bucket_sort)
+{
+    SORT_ARRAY_USING(bucket_sort);
+    CHECK_SORT_RESULT_ASCEND();
+}
+
+TEST_F(test_sorts, should_array_ascend_when_using_counting_sort)
+{
+    SORT_ARRAY_USING(counting_sort);
+    CHECK_SORT_RESULT_ASCEND();
+}
